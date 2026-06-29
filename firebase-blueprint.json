@@ -1,0 +1,66 @@
+{
+  "entities": {
+    "Report": {
+      "title": "Report",
+      "description": "An infrastructure hazard reported by a citizen",
+      "type": "object",
+      "properties": {
+        "photo": { "type": "string", "description": "Base64 encoded JPEG/PNG image or GCS video URL" },
+        "videoUrl": { "type": "string", "description": "Cloudinary video URL if provided" },
+        "category": { "type": "string", "enum": ["pothole", "broken streetlight", "water leak", "garbage issue", "other"] },
+        "severity": { "type": "string", "enum": ["low", "medium", "high"] },
+        "description": { "type": "string" },
+        "status": { "type": "string", "enum": ["Reported", "Verified", "Fixed"] },
+        "location": {
+          "type": "object",
+          "properties": {
+            "latitude": { "type": "number" },
+            "longitude": { "type": "number" },
+            "address": { "type": "string" }
+          },
+          "required": ["latitude", "longitude", "address"]
+        },
+        "reportedBy": {
+          "type": "object",
+          "properties": {
+            "uid": { "type": "string" },
+            "email": { "type": "string" },
+            "displayName": { "type": "string" },
+            "photoURL": { "type": "string" }
+          },
+          "required": ["uid"]
+        },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "confirmedBy": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "required": ["photo", "category", "severity", "description", "status", "location", "reportedBy"]
+    },
+    "User": {
+      "title": "User",
+      "description": "User profile with points accumulated through community action",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "email": { "type": "string" },
+        "points": { "type": "number" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "displayName", "points"]
+    }
+  },
+  "firestore": {
+    "/reports/{reportId}": {
+      "schema": "Report",
+      "description": "Hazard reports submitted by citizens"
+    },
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile and community contributions leaderboard points"
+    }
+  }
+}

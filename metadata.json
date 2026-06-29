@@ -1,0 +1,10 @@
+{
+  "name": "Community Hero",
+  "description": "Local infrastructure problem reporter and community verification dashboard.",
+  "requestFramePermissions": [
+    "geolocation"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
